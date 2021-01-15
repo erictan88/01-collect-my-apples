@@ -21,17 +21,11 @@
  * 
  * 4B) Lose Life when Bad Apple Touching Hero
  */
-controller.right.onEvent(ControllerButtonEvent.Repeated, function () {
-    Hero.x += 10
-})
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    Hero.x += -5
-})
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     sprite.destroy(effects.fire, 100)
 })
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    Hero.x += 5
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+    sprite.setVelocity(50, 50)
 })
 scene.onHitWall(SpriteKind.Food, function (sprite, location) {
     sprite.destroy(effects.fire, 100)
@@ -45,26 +39,22 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     otherSprite.destroy(effects.confetti, 100)
     info.changeLifeBy(-1)
 })
-controller.left.onEvent(ControllerButtonEvent.Repeated, function () {
-    Hero.x += -10
-})
 let Apple: Sprite = null
 let Bad_Apple: Sprite = null
-let Hero: Sprite = null
 info.setLife(3)
 info.setScore(0)
 let speed = 20
-tiles.setTilemap(tiles.createTilemap(hex`100008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010102020202020202020202020202020202`, img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    `, [myTiles.transparency16,myTiles.tile1,myTiles.tile2], TileScale.Sixteen))
-Hero = sprites.create(img`
+tiles.setTilemap(tiles.createTilemap(hex`0a0008000202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020201010101010101010101`, img`
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    2 2 2 2 2 2 2 2 2 2 
+    `, [myTiles.transparency16,myTiles.tile2,myTiles.tile1], TileScale.Sixteen))
+let Hero = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
     . . . f f f 2 2 2 2 f f f . . . 
@@ -82,6 +72,7 @@ Hero = sprites.create(img`
     . . . . . f f f f f f . . . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
+controller.moveSprite(Hero, 100, 0)
 Hero.setPosition(80, 110)
 Hero.setFlag(SpriteFlag.StayInScreen, true)
 game.onUpdateInterval(3900, function () {
@@ -103,7 +94,7 @@ game.onUpdateInterval(3900, function () {
         . . . 7 7 e e 4 4 4 7 e e . . . 
         . . . . . 7 7 e e e e . . . . . 
         `, SpriteKind.Enemy)
-    Bad_Apple.setPosition(randint(10, 150), 10)
+    Bad_Apple.setPosition(randint(10, 150), 0)
     Bad_Apple.setVelocity(0, speed)
 })
 game.onUpdateInterval(3000, function () {
