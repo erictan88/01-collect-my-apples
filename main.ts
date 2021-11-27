@@ -24,9 +24,6 @@
 scene.onHitWall(SpriteKind.Enemy, function (sprite, location) {
     sprite.destroy(effects.fire, 100)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
-    sprite.setVelocity(50, 50)
-})
 scene.onHitWall(SpriteKind.Food, function (sprite, location) {
     sprite.destroy(effects.fire, 100)
     info.changeLifeBy(-1)
@@ -44,16 +41,7 @@ let Bad_Apple: Sprite = null
 info.setLife(3)
 info.setScore(0)
 let speed = 20
-tiles.setTilemap(tiles.createTilemap(hex`0a0008000202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020201010101010101010101`, img`
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    2 2 2 2 2 2 2 2 2 2 
-    `, [myTiles.transparency16,myTiles.tile2,myTiles.tile1], TileScale.Sixteen))
+tiles.setTilemap(tilemap`level1`)
 let Hero = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
